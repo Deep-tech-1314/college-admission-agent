@@ -1,0 +1,89 @@
+openapi: 3.1.0
+info:
+  title: College Admission Agent API
+  description: RAG-powered API for answering college admission queries using IBM Granite.
+  version: 1.0.0
+servers:
+  - url: https://upset-spoons-hammer.loca.lt
+    description: Local tunnel for IBM watsonx Orchestrate (Update this URL when deployed to production)
+paths:
+  /ask:
+    post:
+      summary: Ask a question about college admissions
+      description: Submit a question to the RAG agent. The agent retrieves relevant context from admission data and uses IBM Granite to formulate an answer.
+      operationId: ask_question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          title: Detail
+      title: HTTPValidationError
+    QueryRequest:
+      type: object
+      required:
+        - question
+      properties:
+        question:
+          type: string
+          title: Question
+      title: QueryRequest
+    QueryResponse:
+      type: object
+      required:
+        - answer
+        - sources
+      properties:
+        answer:
+          type: string
+          title: Answer
+        sources:
+          type: array
+          items:
+            type: string
+          title: Sources
+      title: QueryResponse
+    ValidationError:
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      properties:
+        loc:
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      title: ValidationError

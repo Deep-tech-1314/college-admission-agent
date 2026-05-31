@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+ibm-watsonx-ai
+langchain
+langchain-ibm
+langchain-community
+chromadb
+sentence-transformers
+pydantic
+python-dotenv
