@@ -1,0 +1,84 @@
+{
+  "project_name": "College Admission Agent (RAG-Powered)",
+  "version": "1.0.0",
+  "description": "An intelligent, RAG-powered College Admission Agent that answers student queries about eligibility, fees, deadlines, and scholarships using IBM Granite and LangChain.",
+  "domain": "Education",
+  "developer": "Deep Dhamecha",
+  "tech_stack": {
+    "approach": "Replicate with LangChain + RAG + IBM Granite Models",
+    "frontend": {
+      "framework": "React 19.2.6",
+      "build_tool": "Vite 8.0.12",
+      "styling": "Vanilla CSS (Glassmorphism & Light Theme)",
+      "icons": "lucide-react 1.17.0",
+      "port": 5173
+    },
+    "backend": {
+      "language": "Python",
+      "framework": "FastAPI",
+      "server": "Uvicorn",
+      "port": 8000,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/ask",
+          "description": "Submit a question to the RAG agent"
+        },
+        {
+          "method": "GET",
+          "path": "/health",
+          "description": "Health check endpoint"
+        }
+      ]
+    },
+    "ai_ml": {
+      "llm_provider": "IBM watsonx.ai",
+      "model_id": "ibm/granite-8b-code-instruct",
+      "model_parameters": {
+        "decoding_method": "greedy",
+        "max_new_tokens": 512,
+        "min_new_tokens": 1,
+        "repetition_penalty": 1.1
+      },
+      "orchestration_framework": "LangChain",
+      "embedding_model": "all-MiniLM-L6-v2",
+      "embedding_provider": "HuggingFace Sentence Transformers",
+      "vector_database": "ChromaDB",
+      "retrieval_config": {
+        "chunk_size": 500,
+        "chunk_overlap": 50,
+        "top_k": 3,
+        "text_splitter": "RecursiveCharacterTextSplitter"
+      }
+    },
+    "integration": {
+      "openapi_version": "3.1.0",
+      "orchestrate_compatible": true,
+      "platform": "IBM watsonx Orchestrate"
+    }
+  },
+  "environment_variables": {
+    "IBM_CLOUD_API_KEY": "required",
+    "WATSONX_PROJECT_ID": "required",
+    "WATSONX_URL": "https://au-syd.ml.cloud.ibm.com"
+  },
+  "data_source": {
+    "file": "backend/data/sample_admission_data.txt",
+    "type": "text",
+    "description": "College admission knowledge base containing eligibility criteria, deadlines, fee structures, scholarships, application process, and FAQs for Global Tech University"
+  },
+  "github_repository": "https://github.com/Deep-tech-1314/college-admission-agent",
+  "setup_instructions": {
+    "backend": [
+      "cd backend",
+      "pip install -r requirements.txt",
+      "Create .env file with IBM Cloud credentials",
+      "python app.py"
+    ],
+    "frontend": [
+      "cd frontend",
+      "npm install",
+      "npm run dev"
+    ]
+  }
+}
